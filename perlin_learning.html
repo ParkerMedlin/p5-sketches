@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Canvas Example</title>
+    </head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <body>
+        <code>
+            document.getElementById('speedSlider').addEventListener('input', function(e) {
+                speed = parseFloat(e.target.value);
+                console.log(`Speed Value Adjusted: ${speed}`);
+            });
+    
+            document.getElementById('scaleSlider').addEventListener('input', function(e) {
+                scale = parseFloat(e.target.value);
+                console.log(`Scale Value Adjusted: ${scale}`)
+            });
+    
+            document.getElementById('flashButton').addEventListener('click', function(e) {
+                if (flash) {
+                    flash=false;
+                } else {
+                    flash=true;
+                };
+            });
+    
+            function setup() {
+                createCanvas(1000,1000)
+            }
+    
+            //let xOffset = 0;
+            //let yOffset = 10000;
+            let flash = false;
+            let speed = .001;
+            let scale = .001;
+            let time = 0;
+            function draw() {
+                background(75);
+                for (let i = 0; i <= height; i++) {
+                    let inter = map(i, 0, height, 0, 1);
+                    let c = lerpColor(color(255, 110, 255), color(251, 255, 110), inter);
+                    stroke(c);
+                    line(0, i, width, i);
+                }
+                //fill(255, 0, 0);
+                //let xPosition = map(noise((xOffset)), 0, 1, 0, width);
+                //let yPosition = map(noise((yOffset)), 0, 1, 0, height);
+                //xOffset += .01;
+                //yOffset += .01;
+                //ellipse(xPosition, yPosition , 10, 10 );
+    
+                noFill();
+                drawWave(time);
+                drawWave(time+1);
+                drawWave(time+2);
+                drawWave(time+3);
+                drawWave(time+4);
+                drawWave(time+5);
+                drawWave(time+6);
+                time += speed;
+            }
+    
+            function drawWave(time){
+                    beginShape();
+                    
+                    let xLineOffset = time;
+                    for (var x = 0; x < width; x++) {
+                        stroke(255);
+                        var y = map(noise(xLineOffset),0,1,0,height);
+                        vertex(x, y);
+                        xLineOffset += scale;
+                    };
+                    strokeWeight(2);
+                    vertex(height/2,max(map(noise(xLineOffset),0,1,0,height)-height),height*5);
+                    
+                    // vertex(0,height);
+                    // let colorValues = getColor();
+                    // fill(colorValues[0], colorValues[1], colorValues[2], 150);
+                    if (flash){
+                        fill(map(random(1),0,1,0,255), 150);
+                    } else {
+                        fill(110, 255, 246, 150);
+                    }
+    
+                    
+                    endShape(CLOSE);
+                }
+    
+            function getColor(){
+                let lightRed = [255, 110, 110];
+                let lightPink = [255, 110, 255];
+                let lightPurple = [207, 110, 255];
+                let lightBlue = [110, 163, 255];
+                let lightTeal = [110, 255, 246];
+                let lightGreen = [114, 255, 110];
+                let lightYellow = [251, 255, 110];
+                let lightOrange = [255, 183, 110];
+    
+                let choices = [lightRed,lightRed,lightPink,
+                                lightPurple,lightBlue,lightTeal,
+                                lightGreen,lightYellow,lightOrange]
+                
+                return choices[Math.round(random(1)*10,0)]
+            }
+        </code>
+        <p style="font:arial">SPEED</p><input type="range" min="0.001" max="0.01" value="0.001" step="0.0001" id="speedSlider">
+        <p style="font:arial">scale</p><input type="range" min="0.001" max="0.01" value="0.001" step="0.000001" id="scaleSlider">
+        <button id="flashButton">seizure</button>
+
+    </body>
+    <script>
+        document.getElementById('speedSlider').addEventListener('input', function(e) {
+            speed = parseFloat(e.target.value);
+            console.log(`Speed Value Adjusted: ${speed}`);
+        });
+
+        document.getElementById('scaleSlider').addEventListener('input', function(e) {
+            scale = parseFloat(e.target.value);
+            console.log(`Scale Value Adjusted: ${scale}`)
+        });
+
+        document.getElementById('flashButton').addEventListener('click', function(e) {
+            if (flash) {
+                flash=false;
+            } else {
+                flash=true;
+            };
+        });
+
+        function setup() {
+            createCanvas(1000,1000)
+        }
+
+        //let xOffset = 0;
+        //let yOffset = 10000;
+        let flash = false;
+        let speed = .001;
+        let scale = .001;
+        let time = 0;
+        function draw() {
+            background(75);
+            for (let i = 0; i <= height; i++) {
+                let inter = map(i, 0, height, 0, 1);
+                let c = lerpColor(color(255, 110, 255), color(251, 255, 110), inter);
+                stroke(c);
+                line(0, i, width, i);
+            }
+            //fill(255, 0, 0);
+            //let xPosition = map(noise((xOffset)), 0, 1, 0, width);
+            //let yPosition = map(noise((yOffset)), 0, 1, 0, height);
+            //xOffset += .01;
+            //yOffset += .01;
+            //ellipse(xPosition, yPosition , 10, 10 );
+
+            noFill();
+            drawWave(time);
+            drawWave(time+1);
+            drawWave(time+2);
+            drawWave(time+3);
+            drawWave(time+4);
+            drawWave(time+5);
+            drawWave(time+6);
+            time += speed;
+        }
+
+        function drawWave(time){
+                beginShape();
+                
+                let xLineOffset = time;
+                for (var x = 0; x < width; x++) {
+                    stroke(255);
+                    var y = map(noise(xLineOffset),0,1,0,height);
+                    vertex(x, y);
+                    xLineOffset += scale;
+                };
+                strokeWeight(2);
+                vertex(height/2,max(map(noise(xLineOffset),0,1,0,height)-height),height*5);
+                
+                // vertex(0,height);
+                // let colorValues = getColor();
+                // fill(colorValues[0], colorValues[1], colorValues[2], 150);
+                if (flash){
+                    fill(map(random(1),0,1,0,255), 150);
+                } else {
+                    fill(110, 255, 246, 150);
+                }
+
+                
+                endShape(CLOSE);
+            }
+
+        function getColor(){
+            let lightRed = [255, 110, 110];
+            let lightPink = [255, 110, 255];
+            let lightPurple = [207, 110, 255];
+            let lightBlue = [110, 163, 255];
+            let lightTeal = [110, 255, 246];
+            let lightGreen = [114, 255, 110];
+            let lightYellow = [251, 255, 110];
+            let lightOrange = [255, 183, 110];
+
+            let choices = [lightRed,lightRed,lightPink,
+                            lightPurple,lightBlue,lightTeal,
+                            lightGreen,lightYellow,lightOrange]
+            
+            return choices[Math.round(random(1)*10,0)]
+        }
+
+    </script>
+</html>
